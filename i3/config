@@ -1,0 +1,60 @@
+# =============================================================================
+# i3 Window Manager — Main Config
+# =============================================================================
+#
+# This is the ENTRY POINT. It does almost nothing itself — it just:
+#   1. Sets the mod key
+#   2. Includes the theme (colors + fonts)
+#   3. Includes all modular config files
+#
+# WHY modular?
+#   - Each file has ONE responsibility
+#   - You can debug by commenting out a single include
+#   - Diffs are cleaner (git-friendly)
+#   - Easy to share/swap individual pieces
+#
+# File loading order matters:
+#   1. Theme (colors + fonts) — variables must be defined BEFORE use
+#   2. Workspaces         — workspace names used in keybindings
+#   3. Appearance         — visual settings using theme variables
+#   4. Rules              — window rules using workspace names
+#   5. Keybindings        — user interaction (uses all above variables)
+#   6. Autostart          — launch desktop services last
+#
+# =============================================================================
+
+# --- Mod Key ---
+# Mod4 = Super/Windows key
+# Mod1 = Alt (uncomment below if you prefer Alt)
+set $mod Mod4
+
+# =============================================================================
+# THEME
+# =============================================================================
+# Load colors (switch between dark/light here or via toggle script)
+include ~/.config/themes/colors-dark.conf
+
+# Load fonts
+include ~/.config/themes/fonts.conf
+
+# =============================================================================
+# MODULES
+# =============================================================================
+include ~/.config/i3/workspaces.conf
+include ~/.config/i3/appearance.conf
+include ~/.config/i3/rules.conf
+include ~/.config/i3/keybindings.conf
+include ~/.config/i3/autostart.conf
+
+# =============================================================================
+# SAFETY NET
+# =============================================================================
+# If everything else breaks, these bindings will ALWAYS work.
+# They guarantee you can open a terminal and exit i3.
+# DO NOT REMOVE THESE.
+# =============================================================================
+# Emergency terminal (xterm is almost always available)
+bindsym $mod+Ctrl+Return exec xterm
+
+# Emergency exit (no confirmation — use only as last resort)
+bindsym $mod+Ctrl+Shift+e exec i3-msg exit
