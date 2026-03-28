@@ -89,7 +89,7 @@ log_info "Setting up configurations..."
 mkdir -p "$CONFIG_DIR"
 
 log_info "Symlinking/Copying dotfiles..."
-for app in i3 alacritty dunst picom polybar rofi; do
+for app in i3 alacritty dunst picom polybar rofi themes; do
     if [ -d "$REPO_DIR/$app" ]; then
         # Back up existing
         if [ -e "$CONFIG_DIR/$app" ]; then
