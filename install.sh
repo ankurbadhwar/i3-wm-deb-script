@@ -32,7 +32,7 @@ install_debian_based() {
     sudo apt update
 
     log_info "Installing core packages..."
-    sudo apt install -y i3 sddm alacritty thunar rofi polybar picom dunst pipewire pipewire-pulse flameshot git curl wget build-essential
+    sudo apt install -y --no-install-recommends i3 lightdm lightdm-gtk-greeter alacritty thunar rofi polybar picom dunst pipewire pipewire-pulse flameshot git curl wget build-essential
 
     log_info "Checking for i3lock-color..."
     if ! command -v i3lock-color &> /dev/null; then
@@ -55,7 +55,7 @@ install_debian_based() {
 install_arch_based() {
     log_info "Detected Arch based system."
     log_info "Installing core packages..."
-    sudo pacman -S --needed --noconfirm i3-wm sddm alacritty thunar rofi polybar picom dunst pipewire pipewire-pulse flameshot git curl wget base-devel
+    sudo pacman -S --needed --noconfirm i3-wm lightdm lightdm-gtk-greeter alacritty thunar rofi polybar picom dunst pipewire pipewire-pulse flameshot git curl wget base-devel
 
     log_info "Checking for i3lock-color..."
     if ! command -v i3lock-color &> /dev/null; then
@@ -107,5 +107,15 @@ find "$CONFIG_DIR/i3/scripts" -type f -name "*.sh" -exec chmod +x {} \;
 if [ -d "$CONFIG_DIR/polybar/scripts" ]; then
     find "$CONFIG_DIR/polybar/scripts" -type f -name "*.sh" -exec chmod +x {} \;
 fi
+
+# Deploy LightDM greeter config
+if [ -f "$REPO_DIR/lightdm/lightdm-gtk-greeter.conf" ]; then
+    log_info "Deploying LightDM GTK Greeter config..."
+    sudo cp "$REPO_DIR/lightdm/lightdm-gtk-greeter.conf" /etc/lightdm/lightdm-gtk-greeter.conf
+fi
+
+# Enable LightDM
+log_info "Enabling LightDM as the display manager..."
+sudo systemctl enable lightdm
 
 log_info "Installation complete! Please reboot or log out to start your new i3 session."
