@@ -1,0 +1,50 @@
+/* =============================================================================
+ * Rofi Configuration
+ * =============================================================================
+ * Modes:
+ *   mod+d      → drun  (app launcher)
+ *   mod+Tab    → window (open window switcher)
+ *   mod+F2     → run   (raw command runner)
+ *
+ * Theme is loaded separately from themes/catppuccin-mocha.rasi
+ * ============================================================================= */
+
+configuration {
+    /* Active modes */
+    modes: "drun,window,run";
+
+    /* drun settings */
+    drun {
+        display-name: "  Apps";
+    }
+    window {
+        display-name: "  Windows";
+    }
+    run {
+        display-name: "  Run";
+    }
+
+    /* Behaviour */
+    show-icons:             true;
+    icon-theme:             "Papirus-Dark";
+    drun-display-format:    "{name}";
+    disable-history:        false;
+    sidebar-mode:           false;
+
+    /* Matching */
+    matching:               "fuzzy";
+    sort:                   true;
+    sorting-method:         "fzf";
+
+    /* Display */
+    display-drun:           "  Apps";
+    display-window:         "  Windows";
+    display-run:            "  Run";
+
+    /* Scroll */
+    scroll-method:          0;
+    click-to-exit:          true;
+}
+
+/* Load theme */
+@theme "~/.config/rofi/themes/catppuccin-mocha.rasi"

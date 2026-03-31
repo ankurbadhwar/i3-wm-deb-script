@@ -1,0 +1,97 @@
+/* =============================================================================
+ * Rofi Theme — Catppuccin Mocha
+ * =============================================================================
+ * Swap this file for any other .rasi theme to change the look.
+ * ============================================================================= */
+
+* {
+    /* Catppuccin Mocha palette */
+    bg:         #1e1e2e;
+    bg-alt:     #181825;
+    bg-sel:     #313244;
+    fg:         #cdd6f4;
+    fg-dim:     #bac2de;
+    accent:     #8caaee;
+    urgent:     #f38ba8;
+    border-col: #45475a;
+
+    /* Wipe defaults */
+    background-color:   transparent;
+    text-color:         @fg;
+}
+
+window {
+    background-color:   @bg;
+    border:             2px solid;
+    border-color:       @accent;
+    border-radius:      12px;
+    width:              520px;
+    padding:            0;
+}
+
+mainbox {
+    background-color:   transparent;
+    children:           [ inputbar, listview ];
+    spacing:            0;
+    padding:            12px;
+}
+
+inputbar {
+    background-color:   @bg-alt;
+    border-radius:      8px;
+    padding:            10px 14px;
+    spacing:            10px;
+    children:           [ prompt, entry ];
+    margin:             0 0 10px 0;
+}
+
+prompt {
+    background-color:   transparent;
+    text-color:         @accent;
+    font:               "JetBrainsMono Nerd Font 11";
+}
+
+entry {
+    background-color:   transparent;
+    text-color:         @fg;
+    placeholder:        "Search...";
+    placeholder-color:  @fg-dim;
+    font:               "JetBrainsMono Nerd Font 11";
+}
+
+listview {
+    background-color:   transparent;
+    lines:              8;
+    columns:            1;
+    spacing:            4px;
+    scrollbar:          false;
+}
+
+element {
+    background-color:   transparent;
+    border-radius:      6px;
+    padding:            8px 12px;
+    spacing:            10px;
+    children:           [ element-icon, element-text ];
+}
+
+element selected {
+    background-color:   @bg-sel;
+    text-color:         @fg;
+}
+
+element-icon {
+    background-color:   transparent;
+    size:               22px;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    font:               "JetBrainsMono Nerd Font 11";
+    highlight:          bold @accent;
+}
+
+element urgent {
+    text-color: @urgent;
+}
