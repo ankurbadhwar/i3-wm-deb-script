@@ -114,8 +114,22 @@ if [ -f "$REPO_DIR/lightdm/lightdm-gtk-greeter.conf" ]; then
     sudo cp "$REPO_DIR/lightdm/lightdm-gtk-greeter.conf" /etc/lightdm/lightdm-gtk-greeter.conf
 fi
 
-# Enable LightDM
+# Enable LightDM as default display manager
 log_info "Enabling LightDM as the display manager..."
 sudo systemctl enable lightdm
 
-log_info "Installation complete! Please reboot or log out to start your new i3 session."
+# Debian-specific: set LightDM as the default display manager
+if [[ "$OS" == "debian" || "$OS" == "ubuntu" || "$LIKE" == *"debian"* || "$LIKE" == *"ubuntu"* ]]; then
+    # Set the default-display-manager file directly
+    echo "/usr/sbin/lightdm" | sudo tee /etc/X11/default-display-manager > /dev/null
+
+    # Disable any competing display managers
+    for dm in gdm gdm3 sddm; do
+        if systemctl is-enabled "$dm" &> /dev/null; then
+            log_warn "Disabling competing display manager: $dm"
+            sudo systemctl disable "$dm"
+        fi
+    done
+fi
+
+log_info "Installation complete! Please reboot to start your new i3 session."
