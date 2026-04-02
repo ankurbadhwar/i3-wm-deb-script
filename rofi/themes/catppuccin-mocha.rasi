@@ -89,7 +89,7 @@ element-text {
     background-color:   transparent;
     text-color:         inherit;
     font:               "JetBrainsMono Nerd Font 11";
-    highlight:          bold @accent;
+    highlight:          bold #8caaee;
 }
 
 element urgent {
