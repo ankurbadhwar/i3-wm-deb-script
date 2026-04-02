@@ -1,0 +1,117 @@
+# =============================================================================
+# Dunst — Notification Daemon Configuration
+# =============================================================================
+# Theme: Catppuccin Mocha
+# Called from: i3/autostart.conf
+#   exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc &
+#
+# Test:  dunstify -u normal "Test" "Hello from dunst"
+# Docs:  man dunst | https://dunst-project.org/
+# =============================================================================
+
+[global]
+    # --- Display ---
+    monitor = 0
+    follow = mouse
+
+    # --- Geometry ---
+    width = 380
+    height = 300
+    origin = top-right
+    offset = 12x12
+    notification_limit = 5
+
+    # --- Appearance ---
+    font = JetBrainsMono Nerd Font 10
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    word_wrap = true
+    ellipsize = middle
+
+    # Show age of notification if older than this (seconds). -1 to disable.
+    show_age_threshold = 60
+
+    # --- Icons ---
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    icon_path = /usr/share/icons/Papirus-Dark/16x16/status/:/usr/share/icons/Papirus-Dark/16x16/devices/:/usr/share/icons/Papirus-Dark/16x16/apps/:/usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/
+
+    # --- Borders & Shape ---
+    frame_width = 2
+    frame_color = "#8caaee"
+    corner_radius = 8
+    separator_height = 2
+    separator_color = frame
+    padding = 12
+    horizontal_padding = 14
+    text_icon_padding = 12
+
+    # --- Progress Bar (volume/brightness) ---
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 4
+
+    # --- Behavior ---
+    sort = true
+    idle_threshold = 120
+    indicate_hidden = true
+    show_indicators = false
+    sticky_history = true
+    history_length = 20
+
+    # --- Mouse Actions ---
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    # --- Misc ---
+    dmenu = /usr/bin/rofi -dmenu -p "Notification"
+    browser = /usr/bin/xdg-open
+    title = Dunst
+    class = Dunst
+
+# =============================================================================
+# Urgency Levels — Catppuccin Mocha Colors
+# =============================================================================
+
+[urgency_low]
+    background = "#1e1e2e"
+    foreground = "#bac2de"
+    frame_color = "#45475a"
+    highlight = "#8caaee"
+    timeout = 3
+
+[urgency_normal]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#8caaee"
+    highlight = "#8caaee"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#f38ba8"
+    highlight = "#f38ba8"
+    timeout = 0
+
+# =============================================================================
+# App-specific Rules (optional — uncomment to customize)
+# =============================================================================
+
+# [volume]
+#     appname = "volume"
+#     highlight = "#8caaee"
+#     timeout = 2
+
+# [brightness]
+#     appname = "brightness"
+#     highlight = "#f9e2af"
+#     timeout = 2
