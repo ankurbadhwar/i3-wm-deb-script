@@ -275,8 +275,9 @@ for dm in gdm gdm3 sddm lxdm xdm; do
     fi
 done
 
-# Enable LightDM
-sudo systemctl enable lightdm
+# Wipe existing symlink in case systemd gets hung up, then forcefully enable
+sudo rm -f /etc/systemd/system/display-manager.service 2>/dev/null || true
+sudo systemctl enable --force lightdm
 
 if [[ "$OS" == "debian" || "$OS" == "ubuntu" || "$LIKE" == *"debian"* || "$LIKE" == *"ubuntu"* ]]; then
     # Debian/Ubuntu: set the default-display-manager file (dpkg mechanism)
