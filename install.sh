@@ -203,6 +203,16 @@ log_info "Making scripts executable..."
 find "$REPO_DIR/i3/scripts" -type f -name "*.sh" -exec chmod +x {} \;
 chmod +x "$REPO_DIR/polybar/launch.sh"
 
+# Also ensure GTK2 can find its config by symlinking ~/.gtkrc-2.0
+if [ -f "$REPO_DIR/gtk-2.0/.gtkrc-2.0" ]; then
+    ln -sfn "$REPO_DIR/gtk-2.0/.gtkrc-2.0" "$HOME/.gtkrc-2.0"
+fi
+
+# Copy wallpaper to system directory for LightDM
+log_info "Deploying LightDM wallpaper..."
+sudo mkdir -p /usr/share/backgrounds
+sudo cp "$REPO_DIR/wallpapers/wallpaper.png" /usr/share/backgrounds/i3-wallpaper.png
+
 # =============================================================================
 # GTK Dark Theme Setup
 # =============================================================================
@@ -253,20 +263,42 @@ DesktopNames=i3
 EOF
 fi
 
-# Enable LightDM
+# Enable LightDM as the sole display manager
 log_info "Enabling LightDM as the display manager..."
+
+# Disable ALL competing display managers first (both distro families)
+for dm in gdm gdm3 sddm lxdm xdm; do
+    if systemctl is-enabled "$dm" &> /dev/null 2>&1; then
+        log_warn "Disabling competing display manager: $dm"
+        sudo systemctl disable "$dm" 2>/dev/null || true
+        sudo systemctl stop "$dm" 2>/dev/null || true
+    fi
+done
+
+# Enable LightDM
 sudo systemctl enable lightdm
 
-# Debian-specific: set as default and disable competing DMs
 if [[ "$OS" == "debian" || "$OS" == "ubuntu" || "$LIKE" == *"debian"* || "$LIKE" == *"ubuntu"* ]]; then
+    # Debian/Ubuntu: set the default-display-manager file (dpkg mechanism)
     echo "/usr/sbin/lightdm" | sudo tee /etc/X11/default-display-manager > /dev/null
+    log_info "Set /etc/X11/default-display-manager → /usr/sbin/lightdm"
 
-    for dm in gdm gdm3 sddm; do
-        if systemctl is-enabled "$dm" &> /dev/null 2>&1; then
-            log_warn "Disabling competing display manager: $dm"
-            sudo systemctl disable "$dm"
-        fi
-    done
+    # Also reconfigure via debconf if available (the most reliable method)
+    if command -v dpkg-reconfigure &> /dev/null; then
+        echo "lightdm shared/default-x-display-manager select lightdm" | sudo debconf-set-selections 2>/dev/null || true
+        sudo DEBIAN_FRONTEND=noninteractive dpkg-reconfigure lightdm 2>/dev/null || true
+        log_info "Ran dpkg-reconfigure to register LightDM as default."
+    fi
+elif [[ "$OS" == "arch" || "$OS" == "endeavouros" || "$LIKE" == *"arch"* ]]; then
+    # Arch: systemctl enable is sufficient, but verify
+    log_info "LightDM enabled via systemctl (Arch)."
+fi
+
+# Verify
+if systemctl is-enabled lightdm &> /dev/null 2>&1; then
+    log_info "✓ LightDM is enabled and will start on boot."
+else
+    log_warn "LightDM may not be properly enabled. Run: sudo systemctl enable lightdm"
 fi
 
 # =============================================================================
