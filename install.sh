@@ -71,6 +71,7 @@ install_debian_based() {
         papirus-icon-theme \
         lxappearance \
         xss-lock xdg-user-dirs xterm \
+        xserver-xorg xinit \
         git curl wget build-essential
 
     # i3lock-color (not in standard repos — build from source)
@@ -111,6 +112,7 @@ install_arch_based() {
         papirus-icon-theme \
         lxappearance \
         xss-lock xdg-user-dirs xterm \
+        xorg xorg-xinit \
         git curl wget base-devel
 
     # i3lock-color from AUR
