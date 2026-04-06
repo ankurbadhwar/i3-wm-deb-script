@@ -6,7 +6,7 @@
  *   mod+Tab    → window (open window switcher)
  *   mod+F2     → run   (raw command runner)
  *
- * Theme is loaded separately from themes/catppuccin-mocha.rasi
+ * Layout is defined in themes/catppuccin-mocha.rasi
  * ============================================================================= */
 
 configuration {

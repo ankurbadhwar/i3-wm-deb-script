@@ -129,7 +129,7 @@ The **Mod key = Super / Windows key (`$mod`)**
 | Terminal (Alacritty) | `$mod` + `Enter` |
 | Fallback Terminal | `$mod` + `Shift` + `Enter` |
 | File Manager (Thunar) | `$mod` + `e` |
-| App Launcher (Rofi) | `$mod` + `d` |
+| App Launcher (Rofi) | `$mod` + `Space` |
 | Screenshot (Flameshot) | `PrintScreen` |
 | Reload i3 Config | `$mod` + `Shift` + `c` |
 | Restart i3 | `$mod` + `Shift` + `r` |

@@ -1,19 +1,21 @@
 /* =============================================================================
  * Rofi Theme — Catppuccin Mocha
  * =============================================================================
- * Swap this file for any other .rasi theme to change the look.
+ * Structure: based on system config (600px window, bg-alt inputbar,
+ *            8-line listview, prompt disabled, 8px element padding)
+ * Colors:    Catppuccin Mocha palette
  * ============================================================================= */
 
 * {
     /* Catppuccin Mocha palette */
     bg:         #1e1e2e;
-    bg-alt:     #181825;
-    bg-sel:     #313244;
+    bg-alt:     #313244;
+    bg-sel:     #45475a;
     fg:         #cdd6f4;
     fg-dim:     #bac2de;
     accent:     #8caaee;
     urgent:     #f38ba8;
-    border-col: #45475a;
+    border-col: #8caaee;
 
     /* Wipe defaults */
     background-color:   transparent;
@@ -21,34 +23,27 @@
 }
 
 window {
-    background-color:   @bg;
+    width:              600px;
     border:             2px solid;
-    border-color:       @accent;
     border-radius:      12px;
-    width:              520px;
-    padding:            0;
+    background-color:   @bg;
+    border-color:       @border-col;
+    location:           center;
+    anchor:             center;
 }
 
 mainbox {
     background-color:   transparent;
-    children:           [ inputbar, listview ];
-    spacing:            0;
     padding:            12px;
 }
 
 inputbar {
-    background-color:   @bg-alt;
-    border-radius:      8px;
-    padding:            10px 14px;
-    spacing:            10px;
-    children:           [ prompt, entry ];
+    padding:            8px;
     margin:             0 0 10px 0;
-}
-
-prompt {
-    background-color:   transparent;
-    text-color:         @accent;
-    font:               "JetBrainsMono Nerd Font 11";
+    border-radius:      8px;
+    background-color:   @bg-alt;
+    spacing:            8px;
+    children:           [ entry ];
 }
 
 entry {
@@ -57,20 +52,28 @@ entry {
     placeholder:        "Search...";
     placeholder-color:  @fg-dim;
     font:               "JetBrainsMono Nerd Font 11";
+    vertical-align:     0.5;
+}
+
+/* prompt is disabled via configuration {} — block kept for completeness */
+prompt {
+    enabled:            false;
+    background-color:   transparent;
+    text-color:         @accent;
 }
 
 listview {
     background-color:   transparent;
     lines:              8;
     columns:            1;
-    spacing:            4px;
+    spacing:            6px;
     scrollbar:          false;
 }
 
 element {
     background-color:   transparent;
-    border-radius:      6px;
-    padding:            8px 12px;
+    border-radius:      8px;
+    padding:            8px;
     spacing:            10px;
     children:           [ element-icon, element-text ];
 }
@@ -83,6 +86,7 @@ element selected {
 element-icon {
     background-color:   transparent;
     size:               22px;
+    vertical-align:     0.5;
 }
 
 element-text {
@@ -90,8 +94,13 @@ element-text {
     text-color:         inherit;
     font:               "JetBrainsMono Nerd Font 11";
     highlight:          bold #8caaee;
+    vertical-align:     0.5;
 }
 
 element urgent {
-    text-color: @urgent;
+    text-color:         @urgent;
+}
+
+textbox {
+    text-color:         @fg;
 }
