@@ -70,6 +70,7 @@ install_debian_based() {
         flameshot feh brightnessctl playerctl \
         papirus-icon-theme \
         lxappearance \
+        network-manager-gnome blueman \
         xss-lock xdg-user-dirs xterm \
         xserver-xorg xinit \
         git curl wget build-essential
@@ -111,6 +112,7 @@ install_arch_based() {
         flameshot feh brightnessctl playerctl \
         papirus-icon-theme \
         lxappearance \
+        network-manager-applet blueman \
         xss-lock xdg-user-dirs xterm \
         xorg xorg-xinit \
         git curl wget base-devel
@@ -296,6 +298,21 @@ elif [[ "$OS" == "arch" || "$OS" == "endeavouros" || "$LIKE" == *"arch"* ]]; the
     # Arch: systemctl enable is sufficient, but verify
     log_info "LightDM enabled via systemctl (Arch)."
 fi
+
+# =============================================================================
+# Enable Supporting Services
+# =============================================================================
+log_step "Enabling NetworkManager and Bluetooth services..."
+
+# NetworkManager — required for nm-applet to actually manage connections
+sudo systemctl enable NetworkManager 2>/dev/null && \
+    log_info "✓ NetworkManager enabled." || \
+    log_warn "Could not enable NetworkManager — enable manually: sudo systemctl enable NetworkManager"
+
+# Bluetooth — required for blueman-applet to reach the bluetooth daemon
+sudo systemctl enable bluetooth 2>/dev/null && \
+    log_info "✓ Bluetooth service enabled." || \
+    log_warn "Could not enable bluetooth — enable manually: sudo systemctl enable bluetooth"
 
 # Verify
 if systemctl is-enabled lightdm &> /dev/null 2>&1; then
